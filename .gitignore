@@ -19,4 +19,4 @@ benchmarks/graphs
 build
 
 # Environment
-# .env
+.env
