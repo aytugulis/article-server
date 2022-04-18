@@ -15,6 +15,15 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "extendDefaults": true,
+        "types": {
+          "{}": false
+        }
+      }
+    ],
     "prettier/prettier": "error",
     "no-useless-constructor": "off",
     "no-unused-vars": "off",
@@ -30,10 +39,6 @@
       {
         "selector": "interface",
         "format": ["PascalCase"]
-        /*         "custom": {
-          "regex": "^I[A-Z]",
-          "match": true
-        } */
       }
     ],
     "class-methods-use-this": "off",

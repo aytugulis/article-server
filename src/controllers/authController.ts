@@ -3,18 +3,34 @@ import { AppError } from '../helpers/AppError';
 import asyncHandler from 'express-async-handler';
 import { User } from '../models/User';
 import { generateJwt } from '../helpers/authentication';
+import { BaseResponse } from '../types/BaseResponse';
+import { StatusCodes } from 'http-status-codes';
 
-export const register = asyncHandler(async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+interface RegisterBody {
+  name: string;
+  email: string;
+  password: string;
+}
+interface RegisterResponse extends BaseResponse {
+  token: string;
+}
 
-  const user = await User.create({
-    name,
-    email,
-    password,
-  });
+export const register = asyncHandler(
+  async (
+    req: Request<{}, {}, RegisterBody>,
+    res: Response<RegisterResponse>,
+  ) => {
+    const { name, email, password } = req.body;
 
-  res.status(200).json({
-    success: true,
-    token: generateJwt(user),
-  });
-});
+    const user = await User.create({
+      name,
+      email,
+      password,
+    });
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      token: generateJwt(user),
+    });
+  },
+);
