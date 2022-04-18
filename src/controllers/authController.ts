@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
+import { Request, Response } from 'express';
 import { AppError } from '../helpers/AppError';
 import asyncHandler from 'express-async-handler';
 import { User } from '../models/User';
 import { generateJwt } from '../helpers/authentication';
-import { BaseResponse } from '../types/BaseResponse';
 import { StatusCodes } from 'http-status-codes';
 
 interface RegisterBody {
@@ -11,10 +11,9 @@ interface RegisterBody {
   email: string;
   password: string;
 }
-interface RegisterResponse extends BaseResponse {
+interface RegisterResponse {
   token: string;
 }
-
 export const register = asyncHandler(
   async (
     req: Request<{}, {}, RegisterBody>,
@@ -28,8 +27,38 @@ export const register = asyncHandler(
       password,
     });
 
+    res.status(StatusCodes.CREATED).json({
+      token: generateJwt(user),
+    });
+  },
+);
+
+interface LoginBody {
+  email: string;
+  password: string;
+}
+interface LoginResponse {
+  token: string;
+}
+export const login = asyncHandler(
+  async (req: Request<{}, {}, LoginBody>, res: Response<LoginResponse>) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email }).select('+password');
+    if (!user)
+      throw new AppError(
+        StatusCodes.BAD_REQUEST,
+        'Incorrect email or password.',
+      );
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect)
+      throw new AppError(
+        StatusCodes.BAD_REQUEST,
+        'Incorrect email or password.',
+      );
+
     res.status(StatusCodes.OK).json({
-      success: true,
       token: generateJwt(user),
     });
   },

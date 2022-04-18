@@ -9,3 +9,12 @@ export const registerSchema = Joi.object({
     password: Joi.string().min(8).required(),
   }),
 });
+
+export const loginSchema = Joi.object({
+  body: Joi.object({
+    email: Joi.string()
+      .regex(/^\S+@\S+\.\S+$/)
+      .required(),
+    password: Joi.string().min(8).required(),
+  }),
+});

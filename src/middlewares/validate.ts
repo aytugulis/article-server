@@ -4,13 +4,8 @@ import { NextFunction, Request, Response } from 'express';
 
 export const validate = (schema: Joi.ObjectSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const { body, query, params } = req;
-
-    const { error } = schema.validate(
-      { body, query, params },
-      { allowUnknown: true },
-    );
-    if (error) throw new AppError(400, error.details[0].message);
+    const { error } = schema.validate(req, { allowUnknown: true });
+    if (error) throw new AppError(400, error.message);
 
     next();
   };
