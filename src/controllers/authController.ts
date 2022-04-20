@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { AppError } from '../helpers/AppError';
 import asyncHandler from 'express-async-handler';
 import { User } from '../models/User';
-import { generateJwt } from '../helpers/authentication';
+import { generateJwt } from '../helpers/authHelper';
 import { StatusCodes } from 'http-status-codes';
 
 interface RegisterBody {
@@ -60,6 +60,25 @@ export const login = asyncHandler(
 
     res.status(StatusCodes.OK).json({
       token: generateJwt(user),
+    });
+  },
+);
+
+interface EditBody {
+  name: string;
+}
+interface EditResponse {
+  message: string;
+}
+export const edit = asyncHandler(
+  async (req: Request<{}, {}, EditBody>, res: Response<EditResponse>) => {
+    const { name } = req.body;
+    const { id } = req.user;
+
+    await User.findByIdAndUpdate(id, { name }, { runValidators: true });
+
+    res.status(StatusCodes.OK).json({
+      message: 'User is updated.',
     });
   },
 );
