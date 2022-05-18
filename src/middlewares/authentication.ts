@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { AppError } from './../helpers/AppError';
 import { NextFunction, Request, Response } from 'express';
 const { JWT_SECRET_KEY } = process.env;
-if (!JWT_SECRET_KEY) throw new AppError(500, 'There is no JWT_SECRET_KEY.');
+if (!JWT_SECRET_KEY) throw new Error('There is no JWT_SECRET_KEY.');
 
 interface JwtPayload {
   id: string;
