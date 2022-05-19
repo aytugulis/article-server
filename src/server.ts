@@ -2,7 +2,7 @@ import { AppError } from './helpers/AppError';
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import { authRouter, userRouter } from './routers';
+import { router } from './routers';
 import { errorHandler } from './middlewares/errorHandler';
 import { connectMongoDb } from './helpers/database';
 
@@ -23,14 +23,13 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'development') {
   app.get('/', (req, res) => res.send('Hello World'));
   app.get('/test', (req, res) => {
-    /*     res.status(200).json({ name: 'aytug' }); */
-    throw new AppError(500, 'custom error message');
+    res.status(200).json({ name: 'aytug' });
+    /*     throw new AppError(500, 'custom error message'); */
   });
 }
 
 // Routers
-app.use('/user', userRouter);
-app.use('/auth', authRouter);
+app.use('/api', router);
 
 // Error Handling
 app.use(errorHandler);

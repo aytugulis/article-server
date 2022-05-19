@@ -1,5 +1,5 @@
 import { validate } from './../middlewares/validate';
-import { IsLoggedIn } from './../middlewares/authentication';
+import { isAuthorized } from './../middlewares/authentication';
 import { Router } from 'express';
 import { register, login, edit } from '../controllers/authController';
 import {
@@ -16,4 +16,8 @@ authRouter.post(
   register,
 );
 authRouter.post('/login', [validate({ body: loginBodySchema })], login);
-authRouter.put('/edit', [IsLoggedIn, validate({ body: editBodySchema })], edit);
+authRouter.put(
+  '/edit',
+  [isAuthorized, validate({ body: editBodySchema })],
+  edit,
+);
