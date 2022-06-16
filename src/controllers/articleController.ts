@@ -1,19 +1,40 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import { Article, IArticle } from '../models/Article';
+import { Article, Category, IArticle } from '../models/Article';
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../helpers/AppError';
 
 // Get all articles
+interface GetArticles {
+  page: string;
+  limit: string;
+}
+
 interface GetArticlesResponse {
   articles: IArticle[];
+  totalPages: number;
+  currentPage: number;
 }
 export const getArticles = asyncHandler(
-  async (req: Request, res: Response<GetArticlesResponse>) => {
-    const articles = await Article.find();
+  async (
+    req: Request<{}, {}, {}, GetArticles>,
+    res: Response<GetArticlesResponse>,
+  ) => {
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || 10;
+
+    const articles = await Article.find()
+      .populate({ path: 'author', select: 'name imageUrl' })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .sort('-createdAt');
+
+    const count = await Article.countDocuments();
 
     res.status(StatusCodes.OK).json({
       articles,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
     });
   },
 );
@@ -44,6 +65,7 @@ export const getOneArticle = asyncHandler(
 
 // Create article
 interface CreateArticleBody {
+  category: Category;
   header: string;
   content: string;
   imageUrl: string;
@@ -73,12 +95,13 @@ interface UpdateArticleResponse {
 }
 export const updateArticle = asyncHandler(
   async (req: Request, res: Response<UpdateArticleResponse>) => {
-    const { header, content, imageUrl } = req.body;
+    const { header, content, imageUrl, category } = req.body;
 
     // req.data Come from middleware
     req.data.header = header || req.data.header;
     req.data.content = content || req.data.content;
     req.data.imageUrl = imageUrl || req.data.imageUrl;
+    req.data.category = category || req.data.category;
 
     req.data = await req.data.save();
 
