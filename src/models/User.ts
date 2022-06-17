@@ -4,6 +4,7 @@ import { emailRegex } from '../helpers/formatter';
 
 export interface IUser {
   name: string;
+  description: string;
   email: string;
   password: string;
   imageUrl: string;
@@ -14,6 +15,10 @@ const UserSchema = new Schema<IUser>({
   name: {
     type: String,
     required: [true, 'Please provide a name'],
+  },
+  description: {
+    type: String,
+    required: [true, 'Please provide a description'],
   },
   email: {
     type: String,

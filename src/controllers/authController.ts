@@ -8,6 +8,7 @@ import { StatusCodes } from 'http-status-codes';
 
 interface RegisterBody {
   name: string;
+  description: string;
   email: string;
   password: string;
 }
@@ -19,10 +20,11 @@ export const register = asyncHandler(
     req: Request<{}, {}, RegisterBody>,
     res: Response<RegisterResponse>,
   ) => {
-    const { name, email, password } = req.body;
+    const { name, description, email, password } = req.body;
 
     const user = await User.create({
       name,
+      description,
       email,
       password,
     });
