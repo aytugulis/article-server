@@ -53,7 +53,10 @@ export const getOneArticle = asyncHandler(
   ) => {
     const { articleId } = req.params;
 
-    const article = await Article.findById(articleId);
+    const article = await Article.findById(articleId).populate({
+      path: 'author',
+      select: 'name imageUrl description',
+    });
     if (!article)
       throw new AppError(StatusCodes.NOT_FOUND, 'Article not found.');
 
