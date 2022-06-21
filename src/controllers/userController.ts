@@ -1,13 +1,20 @@
-import { NextFunction, Request, Response } from 'express';
-import { AppError } from '../helpers/AppError';
+import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import { Article } from '../models/Article';
 import StatusCodes from 'http-status-codes';
+import { User } from '../models/User';
 
-export const getUser = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    return next(new AppError(400, 'Test error'));
-    res.json({ message: 'Test message' });
+// Get one user
+interface GetUserParams {
+  userId: string;
+}
+
+export const getOneUser = asyncHandler(
+  async (req: Request<GetUserParams, {}, {}, {}>, res: Response) => {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+
+    res.status(StatusCodes.OK).json(user);
   },
 );
 

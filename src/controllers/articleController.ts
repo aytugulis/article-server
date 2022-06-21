@@ -6,8 +6,10 @@ import { AppError } from '../helpers/AppError';
 
 // Get all articles
 interface GetArticles {
-  page: string;
-  limit: string;
+  page?: string;
+  limit?: string;
+  category?: Category;
+  author?: Category;
 }
 
 interface GetArticlesResponse {
@@ -20,16 +22,22 @@ export const getArticles = asyncHandler(
     req: Request<{}, {}, {}, GetArticles>,
     res: Response<GetArticlesResponse>,
   ) => {
-    const page = +req.query.page || 1;
-    const limit = +req.query.limit || 10;
+    const { category, author } = req.query;
+    const page = +(req.query.page || 1);
+    const limit = +(req.query.limit || 10);
 
-    const articles = await Article.find()
+    const condition = {
+      ...(category && { category }),
+      ...(author && { author }),
+    };
+
+    const articles = await Article.find(condition)
       .populate({ path: 'author', select: 'name imageUrl' })
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .sort('-createdAt');
 
-    const count = await Article.countDocuments();
+    const count = await Article.countDocuments(condition);
 
     res.status(StatusCodes.OK).json({
       articles,
