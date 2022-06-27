@@ -1,3 +1,4 @@
+import { IUser } from './../models/User';
 import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
 import { AppError } from '../helpers/AppError';
@@ -12,7 +13,8 @@ interface RegisterBody {
   email: string;
   password: string;
 }
-interface RegisterResponse {
+interface RegisterResponse extends Omit<IUser, 'password'> {
+  _id: string;
   token: string;
 }
 export const register = asyncHandler(
@@ -31,6 +33,12 @@ export const register = asyncHandler(
 
     res.status(StatusCodes.CREATED).json({
       token: generateJwt(user),
+      _id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      imageUrl: user.imageUrl,
+      description: user.description,
     });
   },
 );
@@ -39,7 +47,8 @@ interface LoginBody {
   email: string;
   password: string;
 }
-interface LoginResponse {
+interface LoginResponse extends Omit<IUser, 'password'> {
+  _id: string;
   token: string;
 }
 export const login = asyncHandler(
@@ -62,6 +71,12 @@ export const login = asyncHandler(
 
     res.status(StatusCodes.OK).json({
       token: generateJwt(user),
+      _id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      imageUrl: user.imageUrl,
+      description: user.description,
     });
   },
 );
