@@ -7,12 +7,13 @@ import {
   loginBodySchema,
   editBodySchema,
 } from '../validations/authSchema';
+import { uploadFile } from '../middlewares/uploadFile';
 
 export const authRouter = Router();
 
 authRouter.post(
   '/register',
-  [validate({ body: registerBodySchema })],
+  [uploadFile('user').single('file'), validate({ body: registerBodySchema })],
   register,
 );
 authRouter.post('/login', [validate({ body: loginBodySchema })], login);

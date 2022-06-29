@@ -90,7 +90,11 @@ export const createArticle = asyncHandler(
     req: Request<{}, {}, CreateArticleBody>,
     res: Response<CreateArticleResponse>,
   ) => {
-    const article = await Article.create({ ...req.body, author: req.user.id });
+    const article = await Article.create({
+      ...req.body,
+      author: req.user.id,
+      imageUrl: req.file?.filename,
+    });
 
     res.status(StatusCodes.CREATED).json({
       message: 'Article is created',

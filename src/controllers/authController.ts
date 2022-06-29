@@ -29,6 +29,7 @@ export const register = asyncHandler(
       description,
       email,
       password,
+      imageUrl: req.file?.filename,
     });
 
     res.status(StatusCodes.CREATED).json({

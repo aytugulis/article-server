@@ -3,5 +3,6 @@ declare namespace Express {
   interface Request {
     user?: any;
     data?: any;
+    savedFile?: any;
   }
 }
