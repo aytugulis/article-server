@@ -83,23 +83,19 @@ interface CreateArticleBody {
 }
 interface CreateArticleResponse {
   message: string;
-  article: IArticle;
 }
 export const createArticle = asyncHandler(
   async (
     req: Request<{}, {}, CreateArticleBody>,
     res: Response<CreateArticleResponse>,
   ) => {
-    const article = await Article.create({
+    await Article.create({
       ...req.body,
       author: req.user.id,
       imageUrl: req.file?.filename,
     });
 
-    res.status(StatusCodes.CREATED).json({
-      message: 'Article is created',
-      article,
-    });
+    res.status(StatusCodes.CREATED).json({ message: 'Article is created' });
   },
 );
 

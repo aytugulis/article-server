@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
+import path from 'path';
 import { router } from './routers';
 import { errorHandler } from './middlewares/errorHandler';
 import { connectMongoDb } from './helpers/database';
@@ -12,20 +12,21 @@ const app = express();
 // MongoDb connection
 connectMongoDb();
 
-// Option middlewares
+// Cors
 app.use(cors());
 
-app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  }),
-);
+// Json Body
+app.use(express.json());
 
 // Routers
 app.use('/api', router);
 
 // Error Handling
 app.use(errorHandler);
+
+// Static File
+app.use(express.static(path.join(__dirname, 'uploads')));
+/* app.use('/uploads/user', express.static(path.join(__dirname, 'public'))); */
 
 // Running server
 const port = process.env.PORT || 5000;
