@@ -1,5 +1,7 @@
-import { Request } from 'express';
+import { NextFunction, Request } from 'express';
 import path from 'path';
+import sharp from 'sharp';
+import fs from 'fs';
 import { v4 } from 'uuid';
 import multer, { FileFilterCallback } from 'multer';
 import { AppError } from '../helpers/AppError';
@@ -7,7 +9,7 @@ import { AppError } from '../helpers/AppError';
 type DestinationCallback = (error: Error | null, destination: string) => void;
 type FileNameCallback = (error: Error | null, filename: string) => void;
 
-export function uploadFile(type: 'user' | 'article', id?: string) {
+export function uploadFile(type: 'user' | 'article') {
   const storage = multer.diskStorage({
     destination: function (
       req: Request,
@@ -26,8 +28,23 @@ export function uploadFile(type: 'user' | 'article', id?: string) {
       file: Express.Multer.File,
       cb: FileNameCallback,
     ) {
+      /*       if (req?.data?.imageUrl) {
+        const url =
+          req?.data?.imageUrl === 'default.jpg' ? null : req.data.imageUrl;
+
+        const extension = file.mimetype.split('/')[1];
+
+        req.savedFile = `${url || v4()}.${extension}`;
+
+        if (!url) req.data.imageUrl = req.savedFile;
+      }
+ */
       const extension = file.mimetype.split('/')[1];
-      req.savedFile = `${id || v4()}.${extension}`; // TODO it won't be id it will be req.user.id req.article.id
+      req.savedFile = `${v4()}.${extension}`;
+
+      /*       console.log(`${process.env.BASE_URL}/${type}/${req.savedFile}`); */
+      /*       console.log(path.join(require?.main?.filename!, `/uploads/${type}`)); */
+
       cb(null, req.savedFile);
     },
   });

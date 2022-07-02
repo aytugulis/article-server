@@ -17,6 +17,7 @@ app.use(cors());
 
 // Json Body
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Routers
 app.use('/api', router);

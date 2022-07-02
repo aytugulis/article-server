@@ -102,24 +102,19 @@ export const createArticle = asyncHandler(
 // Update article
 interface UpdateArticleResponse {
   message: string;
-  article: IArticle;
 }
 export const updateArticle = asyncHandler(
   async (req: Request, res: Response<UpdateArticleResponse>) => {
-    const { header, content, imageUrl, category } = req.body;
+    const { header, content, category } = req.body;
 
     // req.data Come from middleware
     req.data.header = header || req.data.header;
     req.data.content = content || req.data.content;
-    req.data.imageUrl = imageUrl || req.data.imageUrl;
     req.data.category = category || req.data.category;
 
     req.data = await req.data.save();
 
-    res.status(StatusCodes.OK).json({
-      message: 'Article is updated',
-      article: req.data,
-    });
+    res.status(StatusCodes.OK).json({ message: 'Article is updated' });
   },
 );
 

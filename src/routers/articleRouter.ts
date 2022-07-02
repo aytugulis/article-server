@@ -7,7 +7,8 @@ import {
   deleteArticle,
 } from '../controllers/articleController';
 import { isAuthorized, isArticleOwner } from '../middlewares/authentication';
-import { uploadFile } from '../middlewares/uploadFile';
+import { uploadFile } from '../middlewares/file';
+import { shapeImage } from '../middlewares/sharp';
 import { validate } from '../middlewares/validate';
 import {
   createArticleBodySchema,
@@ -23,13 +24,19 @@ articleRouter.post(
   [
     isAuthorized,
     uploadFile('article').single('file'),
+    shapeImage,
     validate({ body: createArticleBodySchema }),
   ],
   createArticle,
 );
 articleRouter.put(
   '/:articleId',
-  [isAuthorized, isArticleOwner, validate({ body: updateArticleBodySchema })],
+  [
+    isAuthorized,
+    isArticleOwner,
+    uploadFile('article').single('file'),
+    validate({ body: updateArticleBodySchema }),
+  ],
   updateArticle,
 );
 articleRouter.delete(
