@@ -111,6 +111,7 @@ export const updateArticle = asyncHandler(
     req.data.header = header || req.data.header;
     req.data.content = content || req.data.content;
     req.data.category = category || req.data.category;
+    req.data.imageUrl = req.file!.filename;
 
     req.data = await req.data.save();
 

@@ -35,6 +35,7 @@ articleRouter.put(
     isAuthorized,
     isArticleOwner,
     uploadFile('article').single('file'),
+    shapeImage,
     validate({ body: updateArticleBodySchema }),
   ],
   updateArticle,

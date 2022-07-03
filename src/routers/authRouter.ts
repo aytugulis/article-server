@@ -24,6 +24,11 @@ authRouter.post(
 authRouter.post('/login', [validate({ body: loginBodySchema })], login);
 authRouter.put(
   '/edit',
-  [isAuthorized, validate({ body: editBodySchema })],
+  [
+    isAuthorized,
+    uploadFile('user').single('file'),
+    shapeImage,
+    validate({ body: editBodySchema }),
+  ],
   edit,
 );

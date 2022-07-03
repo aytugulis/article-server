@@ -84,16 +84,23 @@ export const login = asyncHandler(
 
 interface EditBody {
   name: string;
+  description: string;
+  email: string;
 }
 interface EditResponse {
   message: string;
 }
 export const edit = asyncHandler(
   async (req: Request<{}, {}, EditBody>, res: Response<EditResponse>) => {
-    const { name } = req.body;
+    const { name, description, email } = req.body;
     const { id } = req.user;
+    const imageUrl = req.file!.filename;
 
-    await User.findByIdAndUpdate(id, { name }, { runValidators: true });
+    await User.findByIdAndUpdate(
+      id,
+      { name, description, email, imageUrl },
+      { runValidators: true },
+    );
 
     res.status(StatusCodes.OK).json({
       message: 'User is updated.',

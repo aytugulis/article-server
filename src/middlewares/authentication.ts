@@ -11,6 +11,8 @@ interface JwtPayload {
   id: string;
   name: string;
   email: string;
+  description: string;
+  imageUrl: string;
 }
 
 export const isAuthorized = (
@@ -31,6 +33,8 @@ export const isAuthorized = (
       id: decoded.id,
       name: decoded.name,
       email: decoded.email,
+      description: decoded.description,
+      imageUrl: decoded.imageUrl,
     };
 
     next();

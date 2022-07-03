@@ -10,6 +10,8 @@ export const generateJwt = (user: HydratedDocument<IUser>) => {
     id: user._id,
     name: user.name,
     email: user.email,
+    imageUrl: user.imageUrl,
+    description: user.description,
   };
 
   return jwt.sign(payload, JWT_SECRET_KEY, {

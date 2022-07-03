@@ -26,7 +26,7 @@ const UserSchema = new Schema<IUser>({
     unique: true,
     match: [emailRegex, 'Please provide a valid email'],
   },
-  imageUrl: { type: String, required: true, default: 'default.jpg' },
+  imageUrl: { type: String, required: true, default: 'default.webp' },
   password: {
     type: String,
     minlength: [8, 'Please provide a password with min length 8'],

@@ -26,7 +26,7 @@ const ArticleSchema = new Schema<IArticle>(
       required: true,
       enum: ['Frontend', 'Backend', 'Fullstack', 'Devops', 'AI', 'Data'],
     },
-    imageUrl: { type: String, required: true, default: 'default.jpg' },
+    imageUrl: { type: String, required: true, default: 'default.webp' },
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true },

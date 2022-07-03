@@ -15,4 +15,6 @@ export const loginBodySchema = Joi.object({
 
 export const editBodySchema = Joi.object({
   name: Joi.string().required(),
+  email: Joi.string().regex(emailRegex).required(),
+  description: Joi.string().required(),
 });

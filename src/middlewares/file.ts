@@ -1,7 +1,5 @@
-import { NextFunction, Request } from 'express';
+import { Request } from 'express';
 import path from 'path';
-import sharp from 'sharp';
-import fs from 'fs';
 import { v4 } from 'uuid';
 import multer, { FileFilterCallback } from 'multer';
 import { AppError } from '../helpers/AppError';
@@ -28,22 +26,11 @@ export function uploadFile(type: 'user' | 'article') {
       file: Express.Multer.File,
       cb: FileNameCallback,
     ) {
-      /*       if (req?.data?.imageUrl) {
-        const url =
-          req?.data?.imageUrl === 'default.jpg' ? null : req.data.imageUrl;
-
-        const extension = file.mimetype.split('/')[1];
-
-        req.savedFile = `${url || v4()}.${extension}`;
-
-        if (!url) req.data.imageUrl = req.savedFile;
-      }
- */
-      const extension = file.mimetype.split('/')[1];
-      req.savedFile = `${v4()}.${extension}`;
-
-      /*       console.log(`${process.env.BASE_URL}/${type}/${req.savedFile}`); */
-      /*       console.log(path.join(require?.main?.filename!, `/uploads/${type}`)); */
+      const currentUrl =
+        type === 'article' ? req?.data?.imageUrl : req?.user?.imageUrl;
+      if (currentUrl && currentUrl !== 'default.webp')
+        req.savedFile = currentUrl.split('.')[0] + '.webp';
+      else req.savedFile = v4() + '.webp';
 
       cb(null, req.savedFile);
     },
