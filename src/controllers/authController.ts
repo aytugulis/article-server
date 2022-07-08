@@ -87,23 +87,31 @@ interface EditBody {
   description: string;
   email: string;
 }
-interface EditResponse {
+interface EditResponse extends Omit<IUser, 'password'> {
   message: string;
+  _id: string;
 }
 export const edit = asyncHandler(
   async (req: Request<{}, {}, EditBody>, res: Response<EditResponse>) => {
     const { name, description, email } = req.body;
-    const { id } = req.user;
-    const imageUrl = req.file!.filename;
+    const { id, imageUrl } = req.user;
+    const filename = req?.file?.filename ? req.file.filename : imageUrl;
 
-    await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       id,
-      { name, description, email, imageUrl },
-      { runValidators: true },
+      { name, description, email, imageUrl: filename },
+      { runValidators: true, new: true },
     );
+    if (!user) throw new AppError(StatusCodes.BAD_REQUEST, 'Could not update.');
 
     res.status(StatusCodes.OK).json({
       message: 'User is updated.',
+      _id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      imageUrl: user.imageUrl,
+      description: user.description,
     });
   },
 );
