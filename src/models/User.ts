@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
 import { Schema, model } from 'mongoose';
-import { emailRegex } from '../helpers/formatter';
 
 export interface IUser {
   name: string;
@@ -24,7 +23,6 @@ const UserSchema = new Schema<IUser>({
     type: String,
     required: [true, 'Please provide a email'],
     unique: true,
-    match: [emailRegex, 'Please provide a valid email'],
   },
   imageUrl: { type: String, required: true, default: 'default.webp' },
   password: {

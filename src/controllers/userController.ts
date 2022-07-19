@@ -48,6 +48,7 @@ export const getTopAuthors = asyncHandler(
         },
       },
       { $sort: { count: -1 } },
+      { $limit: 3 },
     ]);
 
     res.status(StatusCodes.OK).json({ topAuthors });

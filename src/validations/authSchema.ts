@@ -1,20 +1,19 @@
 import Joi from 'joi';
-import { emailRegex } from '../helpers/formatter';
 
 export const registerBodySchema = Joi.object({
-  name: Joi.string().required(),
-  description: Joi.string().required(),
-  email: Joi.string().regex(emailRegex).required(),
+  name: Joi.string().max(30).required(),
+  description: Joi.string().max(50).required(),
+  email: Joi.string().email().required(),
   password: Joi.string().min(8).required(),
 });
 
 export const loginBodySchema = Joi.object({
-  email: Joi.string().regex(emailRegex).required(),
-  password: Joi.string().min(8).required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
 });
 
 export const editBodySchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().regex(emailRegex).required(),
-  description: Joi.string().required(),
+  name: Joi.string().max(30).required(),
+  email: Joi.string().email().required(),
+  description: Joi.string().max(50).required(),
 });
