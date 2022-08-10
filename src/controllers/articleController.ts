@@ -35,7 +35,8 @@ export const getArticles = asyncHandler(
       .populate({ path: 'author', select: 'name imageUrl' })
       .limit(limit * 1)
       .skip((page - 1) * limit)
-      .sort('-createdAt');
+      .sort('-createdAt')
+      .select('-content');
 
     const count = await Article.countDocuments(condition);
 
@@ -131,5 +132,24 @@ export const deleteArticle = asyncHandler(
     res.status(StatusCodes.OK).json({
       message: 'Article is deleted',
     });
+  },
+);
+
+interface GetBannerArticlesResponse {
+  articles: IArticle[];
+}
+export const getBannerArticles = asyncHandler(
+  async (req: Request, res: Response<GetBannerArticlesResponse>) => {
+    const count = await Article.countDocuments();
+    const limit = 5;
+    const random = Math.floor(Math.random() * (count - limit));
+
+    const articles = await Article.find()
+      .populate({ path: 'author', select: 'name imageUrl' })
+      .limit(limit)
+      .skip(random)
+      .select('-content');
+
+    res.status(StatusCodes.OK).json({ articles });
   },
 );

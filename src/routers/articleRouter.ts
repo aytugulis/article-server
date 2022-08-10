@@ -5,6 +5,7 @@ import {
   createArticle,
   updateArticle,
   deleteArticle,
+  getBannerArticles,
 } from '../controllers/articleController';
 import { isAuthorized, isArticleOwner } from '../middlewares/authentication';
 import { uploadFile } from '../middlewares/file';
@@ -18,6 +19,7 @@ import {
 export const articleRouter = Router();
 
 articleRouter.get('/', getArticles);
+articleRouter.get('/get-banner-articles', getBannerArticles);
 articleRouter.get('/:articleId', getOneArticle);
 articleRouter.post(
   '/',
