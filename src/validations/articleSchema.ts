@@ -2,10 +2,10 @@ import Joi from 'joi';
 import { removeHtmlTags } from '../helpers/formatter';
 
 const minContentLength = 20;
-const maxContentLength = 1000;
+const maxContentLength = 5000;
 
 export const createArticleBodySchema = Joi.object({
-  header: Joi.string().min(3).max(20).required(),
+  header: Joi.string().min(3).max(40).required(),
   content: Joi.string()
     .custom((value, helper) => {
       const formattedValue = removeHtmlTags(value);
@@ -28,7 +28,7 @@ export const createArticleBodySchema = Joi.object({
 });
 
 export const updateArticleBodySchema = Joi.object({
-  header: Joi.string().min(3).max(20),
+  header: Joi.string().min(3).max(40),
   content: Joi.string().custom((value, helper) => {
     const formattedValue = removeHtmlTags(value);
     if (formattedValue.length < minContentLength)

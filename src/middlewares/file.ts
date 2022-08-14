@@ -41,7 +41,12 @@ export function uploadFile(type: 'user' | 'article') {
     file: Express.Multer.File,
     cb: FileFilterCallback,
   ) => {
-    const allowedMimeTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+    const allowedMimeTypes = [
+      'image/jpg',
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+    ];
 
     if (!allowedMimeTypes.includes(file.mimetype)) {
       return cb(new AppError(400, 'Please provide a valid image file'));
