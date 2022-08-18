@@ -6,7 +6,7 @@
   "author": "AYTUĞ ULIŞ <aytugulis@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node ./build/server.js",
+    "start": "ts-node ./src/server.ts",
     "dev": "nodemon ./src/server.ts",
     "lint": "eslint --fix --ext .js,.ts,.json ."
   },
