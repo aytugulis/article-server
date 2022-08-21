@@ -54,5 +54,7 @@ export function uploadFile(type: 'user' | 'article') {
     return cb(null, true);
   };
 
-  return multer({ storage, fileFilter });
+  const limits = { fileSize: 30 * 1024 * 1024 };
+
+  return multer({ storage, fileFilter, limits });
 }
