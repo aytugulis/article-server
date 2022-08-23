@@ -1,11 +1,11 @@
 import { connect } from 'mongoose';
-const { MONGO_URI } = process.env;
-if (!MONGO_URI) throw new Error('There is no MONGO_URI');
+const { ARTICLE_MONGO_URI } = process.env;
+if (!ARTICLE_MONGO_URI) throw new Error('There is no ARTICLE_MONGO_URI');
 
 export const connectMongoDb = async () => {
   try {
     console.log('MongoDb is working');
-    await connect(MONGO_URI);
+    await connect(ARTICLE_MONGO_URI);
   } catch (error) {
     console.log(error);
   }

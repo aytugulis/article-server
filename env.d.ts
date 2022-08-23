@@ -1,10 +1,10 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
-    NODE_ENV: 'development' | 'production';
-    PORT?: string;
-    MONGO_URI: string;
-    JWT_SECRET_KEY: string;
-    JWT_EXPIRE: string;
+    ARTICLE_NODE_ENV: 'development' | 'production';
+    ARTICLE_PORT?: string;
+    ARTICLE_MONGO_URI: string;
+    ARTICLE_JWT_SECRET_KEY: string;
+    ARTICLE_JWT_EXPIRE: string;
   }
 }
 

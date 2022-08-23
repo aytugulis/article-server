@@ -18,6 +18,7 @@ export const errorHandler: ErrorRequestHandler = (
 
   res.status(err.status || StatusCodes.INTERNAL_SERVER_ERROR).json({
     message: err.message,
-    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    stack:
+      process.env.ARTICLE_NODE_ENV === 'development' ? err.stack : undefined,
   });
 };

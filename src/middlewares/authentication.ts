@@ -4,8 +4,9 @@ import { AppError } from './../helpers/AppError';
 import { NextFunction, Request, Response } from 'express';
 import { Article } from '../models/Article';
 import asyncHandler from 'express-async-handler';
-const { JWT_SECRET_KEY } = process.env;
-if (!JWT_SECRET_KEY) throw new Error('There is no JWT_SECRET_KEY.');
+const { ARTICLE_JWT_SECRET_KEY } = process.env;
+if (!ARTICLE_JWT_SECRET_KEY)
+  throw new Error('There is no ARTICLE_JWT_SECRET_KEY.');
 
 interface JwtPayload {
   id: string;
@@ -27,7 +28,7 @@ export const isAuthorized = (
   const token = authorization.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET_KEY) as JwtPayload;
+    const decoded = jwt.verify(token, ARTICLE_JWT_SECRET_KEY) as JwtPayload;
 
     req.user = {
       id: decoded.id,

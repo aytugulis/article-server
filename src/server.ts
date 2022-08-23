@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'uploads')));
 /* app.use('/uploads/user', express.static(path.join(__dirname, 'public'))); */
 
 // Running server
-const port = process.env.PORT || 5000;
+const port = process.env.ARTICLE_PORT || 5000;
 app.listen(port, () => {
   console.log(`🚀 Server running on the port: ${port}`);
 });

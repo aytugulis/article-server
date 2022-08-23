@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { IUser } from '../models/User';
 import { HydratedDocument } from 'mongoose';
-const { JWT_SECRET_KEY, JWT_EXPIRE } = process.env;
-if (!JWT_SECRET_KEY || !JWT_EXPIRE)
-  throw new Error('There is no JWT_SECRET_KEY or JWT_EXPIRE');
+const { ARTICLE_JWT_SECRET_KEY, ARTICLE_JWT_EXPIRE } = process.env;
+if (!ARTICLE_JWT_SECRET_KEY || !ARTICLE_JWT_EXPIRE)
+  throw new Error('There is no ARTICLE_JWT_SECRET_KEY or ARTICLE_JWT_EXPIRE');
 
 export const generateJwt = (user: HydratedDocument<IUser>) => {
   const payload = {
@@ -14,7 +14,7 @@ export const generateJwt = (user: HydratedDocument<IUser>) => {
     description: user.description,
   };
 
-  return jwt.sign(payload, JWT_SECRET_KEY, {
-    expiresIn: JWT_EXPIRE,
+  return jwt.sign(payload, ARTICLE_JWT_SECRET_KEY, {
+    expiresIn: ARTICLE_JWT_EXPIRE,
   });
 };
