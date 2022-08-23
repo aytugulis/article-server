@@ -6,9 +6,7 @@
   "author": "AYTUĞ ULIŞ <aytugulis@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "pm2 start server.ts --watch",
-    "postinstall": "pm2 install typescript",
-    "local": "ts-node --transpile-only ./src/server",
+    "start": "ts-node --transpile-only ./src/server",
     "dev": "nodemon ./src/server.ts",
     "lint": "eslint --fix --ext .js,.ts,.json ."
   },
