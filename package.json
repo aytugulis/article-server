@@ -6,7 +6,9 @@
   "author": "AYTUĞ ULIŞ <aytugulis@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node --transpile-only ./src/server",
+    "start": "pm2 start server.ts --watch",
+    "postinstall": "pm2 install typescript",
+    "local": "ts-node --transpile-only ./src/server",
     "dev": "nodemon ./src/server.ts",
     "lint": "eslint --fix --ext .js,.ts,.json ."
   },
@@ -15,8 +17,10 @@
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.8",
+    "@types/multer": "^1.4.7",
     "@types/node": "^17.0.24",
     "@types/sharp": "^0.30.4",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "eslint": "^8.13.0",
@@ -24,13 +28,9 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "nodemon": "^2.0.15",
-    "prettier": "^2.6.2",
-    "@types/multer": "^1.4.7",
-    "@types/uuid": "^8.3.4"
+    "prettier": "^2.6.2"
   },
   "dependencies": {
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
@@ -41,7 +41,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.0",
     "multer": "^1.4.5-lts.1",
+    "pm2": "^5.2.0",
     "sharp": "^0.30.7",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3",
     "uuid": "^8.3.2"
   }
 }
