@@ -1,6 +1,5 @@
 # Article server
 
-- Live demo: https://article-client.vercel.app
 - Frontend repository: https://github.com/aytugulis/article-client
 
 ## Packages
